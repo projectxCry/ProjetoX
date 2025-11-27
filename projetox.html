@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Projeto X - Cyberpunk</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+        background:black;
+        color:white;
+        font-family:"Montserrat",sans-serif;
+        overflow-x:hidden;
+    }
+
+    /* HERO + fundo animado */
+    .hero {
+        height:100vh;
+        position:relative;
+        overflow:hidden;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .hero-bg {
+        position:absolute;
+        inset:0;
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+        background-attachment:fixed;
+        transition:opacity 1.4s ease-in-out;
+        opacity:1;
+        z-index:1;
+    }
+    .hero-bg.fade { opacity:0; }
+
+    .hero-content {
+        position:relative;
+        z-index:5;
+        text-align:center;
+    }
+
+    .hero::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        background:rgba(0,0,0,0.45);
+        backdrop-filter:blur(2px);
+        z-index:2;
+    }
+
+    /* Título glitch */
+    .glitch{
+        font-family:"Bebas Neue", sans-serif;
+        font-size:9rem;
+        font-weight:900;
+        color:white;
+        text-transform:uppercase;
+        position:relative;
+        z-index:5;
+        animation: glitch-skew 1.5s infinite linear alternate-reverse, distort 3s infinite ease-in-out;
+    }
+    .glitch::before{
+        content:attr(data-text);
+        position:absolute;
+        top:0; left:2px;
+        width:100%; height:100%;
+        text-shadow:-2px 0 #ff004c;
+        animation:glitch-clip1 2s infinite linear alternate-reverse;
+    }
+    .glitch::after{
+        content:attr(data-text);
+        position:absolute;
+        top:0; left:-2px;
+        width:100%; height:100%;
+        text-shadow:-2px 0 #00eaff;
+        animation:glitch-clip2 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-clip1{
+        0% { clip-path: inset(10% 0 70% 0); }
+        20% { clip-path: inset(40% 0 20% 0); }
+        40% { clip-path: inset(5% 0 80% 0); }
+        60% { clip-path: inset(60% 0 15% 0); }
+        80% { clip-path: inset(30% 0 50% 0); }
+        100%{ clip-path: inset(15% 0 60% 0); }
+    }
+    @keyframes glitch-clip2{
+        0% { clip-path: inset(70% 0 10% 0); }
+        20% { clip-path: inset(20% 0 40% 0); }
+        40% { clip-path: inset(80% 0 5% 0); }
+        60% { clip-path: inset(15% 0 60% 0); }
+        80% { clip-path: inset(50% 0 30% 0); }
+        100%{ clip-path: inset(60% 0 15% 0); }
+    }
+
+    @keyframes glitch-skew{
+        0% { transform:skew(0deg); }
+        20% { transform:skew(1deg); }
+        40% { transform:skew(-1deg); }
+        60% { transform:skew(0.5deg); }
+        80% { transform:skew(-0.5deg); }
+        100%{ transform:skew(0deg); }
+    }
+
+    @keyframes distort {
+        0% { transform: skew(0deg) scale(1); }
+        20% { transform: skew(1deg) scale(1.01); }
+        40% { transform: skew(-1.5deg) scale(0.99); }
+        60% { transform: skew(0.8deg) scale(1.02); }
+        80% { transform: skew(-1deg) scale(1.01); }
+        100% { transform: skew(0deg) scale(1); }
+    }
+    /* Subtexto neon restaurado */
+.subtexto{
+    font-family:"Montserrat", sans-serif;
+    font-weight:600;
+    font-size:1.8rem;
+    margin-top:35px;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    z-index:5;
+    position:relative;
+    color:white;
+    text-shadow:
+        0 0 10px #ff00c8,
+        0 0 20px #00eaff,
+        0 0 40px #ff00c8,
+        0 0 80px #ff00c8;
+    animation: subGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes subGlow {
+    0% {
+        opacity:0.7;
+        text-shadow:
+            0 0 8px #ff00c8,
+            0 0 18px #00eaff,
+            0 0 35px #ff00c8;
+    }
+    50% {
+        opacity:1;
+        text-shadow:
+            0 0 15px #00eaff,
+            0 0 35px #ff00c8,
+            0 0 70px #00eaff;
+    }
+    100% {
+        opacity:0.7;
+        text-shadow:
+            0 0 10px #ff00c8,
+            0 0 25px #00eaff,
+            0 0 55px #ff00c8;
+    }
+}
+
+
+    /* SEÇÕES */
+    section{
+        padding:60px 10%;
+        background:black;
+    }
+
+    h2{
+        font-family:"Bebas Neue";
+        font-size:3.5rem;
+        margin-bottom:20px;
+        text-shadow:0 0 10px #ff0066,0 0 20px #00eaff;
+    }
+
+    .caixa{
+        background:rgba(0,0,0,0.55);
+        border:1px solid rgba(255,255,255,0.2);
+        padding:25px;
+        border-radius:10px;
+        backdrop-filter:blur(5px);
+        margin-bottom:20px;
+        box-shadow:0 0 15px rgba(255,0,150,0.4);
+    }
+
+    form{
+        max-width:400px;
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    }
+
+    input{
+        padding:15px;
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.4);
+        background:rgba(0,0,0,0.4);
+        color:white;
+        font-size:1.1rem;
+    }
+
+    .btn{
+        padding:15px;
+        border-radius:50px;
+        border:none;
+        background:#ff0066;
+        color:white;
+        font-size:1.3rem;
+        cursor:pointer;
+        box-shadow:0 0 25px #ff0066;
+    }
+
+    /* Controle de volume */
+    #volume-control{
+        position:fixed;
+        bottom:20px;
+        right:20px;
+        width:140px;
+        z-index:9999;
+    }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-content">
+        <div class="glitch" data-text="PROJETO X">
+            PROJETO <span class="x">X</span>
+        </div>
+        <div class="subtexto">20/12/2025</div>
+    </div>
+</div>
+
+<!-- SEÇÃO ENTRADA -->
+<section>
+    <h2>ENTRADA</h2>
+    <div class="caixa">
+        💲 Valor: R$ 2,00 <br><br>
+        Preencha seus dados para liberar o pagamento.
+    </div>
+
+    <form id="formEntrada">
+        <input type="text" id="nome" placeholder="Nome completo" required>
+        <input type="date" id="nascimento" required>
+        <button class="btn" type="submit">PAGAR R$ 2</button>
+    </form>
+
+    <p id="msg" style="margin-top:15px;font-weight:bold;"></p>
+</section>
+
+<!-- SEÇÃO REGRAS -->
+<section>
+    <h2>REGRAS</h2>
+    <div class="caixa">
+        🔞 18+ <br>
+        🚫 Nada de armas <br>
+        🍾 Traga sua bebida
+    </div>
+</section>
+
+<footer style="text-align:center;padding:25px;background:black;">
+    Festa Projeto X — Edição Cyberpunk
+</footer>
+
+<!-- ÁUDIO song.mp3 -->
+<audio id="bg-music" src="song.mp3" loop muted></audio>
+
+<!-- Volume -->
+<div id="volume-control">
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.30">
+</div>
+
+<script>
+/* GIF LOOP ORIGINAL */
+const heroBg = document.getElementById("heroBg");
+const gifs = [
+    "https://th.bing.com/th/id/R.aef12b1d57676ea18e38361c00aea46d?rik=EsxDtsdNyAyAuw&riu=http%3a%2f%2f24.media.tumblr.com%2faef12b1d57676ea18e38361c00aea46d%2ftumblr_mws2j25J6W1s4bzmwo1_400.gif&ehk=PuM4oXrefK%2fJVYCZFTAW3tANt%2b2Nw79Nnlw1oaHFjAg%3d&risl=&pid=ImgRaw&r=0",
+    "https://media.tenor.com/-UQOyzOnF8cAAAAC/project-x-project.gif",
+    "https://media1.tenor.com/m/f8cDG_q4SFwAAAAC/projectx-smash.gif",
+    "https://31.media.tumblr.com/3782731b6c96a0b6cda2654b30786a17/tumblr_mvvlgb9uK21spnz0yo1_500.gif"
+];
+
+let index = 0;
+heroBg.style.backgroundImage = `url('${gifs[index]}')`;
+
+function trocarGif(){
+    heroBg.classList.add("fade");
+    setTimeout(() => {
+        index = (index + 1) % gifs.length;
+        heroBg.style.backgroundImage = `url('${gifs[index]}')`;
+        heroBg.classList.remove("fade");
+    }, 1400);
+}
+setInterval(trocarGif, 7500);
+
+/* ÁUDIO AUTOPLAY song.mp3 */
+const audio = document.getElementById("bg-music");
+const slider = document.getElementById("volumeSlider");
+
+audio.volume = 0;
+audio.play().catch(()=>{});
+
+setTimeout(()=>{
+    audio.muted = false;
+    audio.volume = 0.30;
+},150);
+
+/* Fallback click */
+document.addEventListener("click",()=>{
+    if(audio.paused){
+        audio.muted = false;
+        audio.volume = slider.value;
+        audio.play();
+    }
+},{once:true});
+
+slider.addEventListener("input",()=> audio.volume = slider.value);
+
+/* Validação do formulário */
+const msg = document.getElementById("msg");
+document.getElementById("formEntrada").addEventListener("submit", function(e){
+    e.preventDefault();
+    const nasc = new Date(document.getElementById("nascimento").value);
+    const hoje = new Date();
+    let idade = hoje.getFullYear() - nasc.getFullYear();
+    const mes = hoje.getMonth() - nasc.getMonth();
+    if (mes < 0 || (mes === 0 && hoje.getDate() < nasc.getDate())) idade--;
+    if(idade < 18){
+        msg.style.color="red";
+        msg.innerText="🚫 Você não tem 18 anos.";
+        return;
+    }
+    msg.style.color="lime";
+    msg.innerText="✔ Idade verificada!";
+});
+</script>
+
+</body>
+</html>
